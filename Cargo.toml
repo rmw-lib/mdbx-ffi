@@ -1,0 +1,27 @@
+[package]
+name = "mdbx-ffi"
+version = "0.0.0"
+edition = "2021"
+authors = [
+    "Dan Burkert <dan@danburkert.com>",
+    "Victor Porof <vporof@mozilla.com>",
+    "Kerollmops <renault.cle@gmail.com>",
+    "Artem Vorotnikov <artem@vorotnikov.me>",
+    "gcxfd <i@rmw.link>",
+]
+license = "Apache-2.0"
+description = "Rust bindings for mdbx."
+repository = "https://github.com/rmw-lib/mdbx-ffi"
+readme = "../README.md"
+keywords = ["MDBX", "database", "storage-engine", "bindings", "library"]
+categories = ["database", "external-ffi-bindings"]
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+libc = "0.2.108"
+
+[build-dependencies]
+cc = "1.0.72"
+bindgen = { version = "0.59.1", default-features = false, features = ["runtime"] }
