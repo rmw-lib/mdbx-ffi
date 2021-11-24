@@ -12,7 +12,7 @@ authors = [
 license = "Apache-2.0"
 description = "Rust bindings for mdbx."
 repository = "https://github.com/rmw-lib/mdbx-ffi"
-readme = "../README.md"
+readme = "README.md"
 keywords = ["MDBX", "database", "storage-engine", "bindings", "library"]
 categories = ["database", "external-ffi-bindings"]
 
