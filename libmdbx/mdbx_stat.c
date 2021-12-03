@@ -34,7 +34,7 @@
  * top-level directory of the distribution or, alternatively, at
  * <http://www.OpenLDAP.org/license.html>. */
 
-#define MDBX_BUILD_SOURCERY e6a110a2cd2ab9f2e426d0d0cb7b8d28e8b7d968ca86837adf90de186a6cf646_v0_11_1_21_gf35b55f
+#define MDBX_BUILD_SOURCERY facaa40d3bb34698b2ba800e2fe225773e3941040aef7dc92580b74ad840e798_v0_11_2_0_gd47eed0
 #ifdef MDBX_CONFIG_H
 #include MDBX_CONFIG_H
 #endif
@@ -667,11 +667,9 @@ extern "C" {
 #include <mach/mach_host.h>
 #include <mach/mach_port.h>
 #include <uuid/uuid.h>
-#undef P_DIRTY
 #endif
 
 #if defined(__linux__) || defined(__gnu_linux__)
-#include <linux/sysctl.h>
 #include <sched.h>
 #include <sys/sendfile.h>
 #include <sys/statfs.h>
