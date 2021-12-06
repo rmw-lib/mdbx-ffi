@@ -34,7 +34,7 @@
  * top-level directory of the distribution or, alternatively, at
  * <http://www.OpenLDAP.org/license.html>. */
 
-#define MDBX_BUILD_SOURCERY facaa40d3bb34698b2ba800e2fe225773e3941040aef7dc92580b74ad840e798_v0_11_2_0_gd47eed0
+#define MDBX_BUILD_SOURCERY ca90d578ad1559343121ecfc6eaf4e5194438934354015d07b3df340c2c3f9d1_v0_11_1_17_g0e2ca3e
 #ifdef MDBX_CONFIG_H
 #include MDBX_CONFIG_H
 #endif
@@ -84,19 +84,6 @@
  * Studio 2015 Update 3). But you could remove this #error and try to continue
  * at your own risk. In such case please don't rise up an issues related ONLY to
  * old compilers.
- *
- * NOTE:
- *   Unfortunately, there are several different builds of "Visual Studio" that
- *   are called "Visual Studio 2015 Update 3".
- *
- *   The 190024234 is used here because it is minimal version of Visual Studio
- *   that was used for build and testing libmdbx in recent years. Soon this
- *   value will be increased to 19.0.24241.7, since build and testing using
- *   "Visual Studio 2015" will be performed only at https://ci.appveyor.com.
- *
- *   Please ask Microsoft (but not us) for information about version differences
- *   and how to and where you can obtain the latest "Visual Studio 2015" build
- *   with all fixes.
  */
 #error                                                                         \
     "At least \"Microsoft C/C++ Compiler\" version 19.00.24234 (Visual Studio 2015 Update 3) is required."
@@ -667,9 +654,11 @@ extern "C" {
 #include <mach/mach_host.h>
 #include <mach/mach_port.h>
 #include <uuid/uuid.h>
+#undef P_DIRTY
 #endif
 
 #if defined(__linux__) || defined(__gnu_linux__)
+#include <linux/sysctl.h>
 #include <sched.h>
 #include <sys/sendfile.h>
 #include <sys/statfs.h>
