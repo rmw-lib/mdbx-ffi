@@ -114,7 +114,6 @@ fn main() {
   builder.define("MDBX_BUILD_FLAGS", flags.as_str());
   builder.define("MDBX_TXN_CHECKOWNER", "0");
   builder.define("NDEBUG", None);
-  builder.define("assert", None);
 
   builder.compile("libmdbx.a");
   link()
