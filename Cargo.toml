@@ -1,6 +1,6 @@
 [package]
 name = "mdbx-ffi"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 authors = [
     "Dan Burkert <dan@danburkert.com>",
