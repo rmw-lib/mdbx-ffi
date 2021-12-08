@@ -113,7 +113,7 @@ fn main() {
   let flags = format!("{:?}", builder.get_compiler().cflags_env());
   builder.define("MDBX_BUILD_FLAGS", flags.as_str());
   builder.define("MDBX_TXN_CHECKOWNER", "0");
-  builder.define("NDEBUG", None);
+  //builder.define("NDEBUG", None);
 
   builder.compile("libmdbx.a");
   link()
