@@ -12,7 +12,7 @@
  * <http://www.OpenLDAP.org/license.html>. */
 
 #define xMDBX_ALLOY 1
-#define MDBX_BUILD_SOURCERY c5b9a3e9ba7c98987e7554f0c84c1e12e9f82d0d470ad881d54923ecf3599c17_v0_11_2_15_gca197965
+#define MDBX_BUILD_SOURCERY c9659931ee8dd2e77817275e2a9ad416346d2d3a3b03548c3e4dfaf4a5f3c553_v0_11_2_18_g74b62cee
 #ifdef MDBX_CONFIG_H
 #include MDBX_CONFIG_H
 #endif
@@ -17911,6 +17911,50 @@ int mdbx_cursor_get(MDBX_cursor *mc, MDBX_val *key, MDBX_val *data,
       rc = MDBX_RESULT_TRUE;
     break;
   }
+  case MDBX_SET_UPPERBOUND: {
+    if (unlikely(key == NULL || data == NULL))
+      return MDBX_EINVAL;
+    MDBX_val save_data = *data;
+    struct cursor_set_result csr =
+        mdbx_cursor_set(mc, key, data, MDBX_SET_RANGE);
+    rc = csr.err;
+    if (rc == MDBX_NOTFOUND) {
+      rc = mdbx_cursor_last(mc, key, data);
+      if (rc == MDBX_SUCCESS) {
+        rc = MDBX_RESULT_TRUE;
+      }
+    } else if ( rc == MDBX_SUCCESS ){
+      if (csr.exact) {
+        if (mc->mc_xcursor) {
+          mc->mc_flags &= ~C_DEL;
+          csr.exact = false;
+          if (!save_data.iov_base && (mc->mc_db->md_flags & MDBX_DUPFIXED)) {
+            mfunc = mdbx_cursor_last;
+            goto mmove;
+          } else if (mc->mc_xcursor->mx_cursor.mc_flags & C_INITIALIZED) {
+            *data = save_data;
+            csr = mdbx_cursor_set(&mc->mc_xcursor->mx_cursor, data, NULL,
+                                  MDBX_SET_RANGE);
+            rc = csr.err;
+            if (rc == MDBX_NOTFOUND) {
+              mdbx_cassert(mc, !csr.exact);
+              rc = mdbx_cursor_prev(mc, key, data, MDBX_PREV_NODUP);
+            }
+          } else {
+            int cmp = mc->mc_dbx->md_dcmp(&save_data, data);
+            csr.exact = (cmp == 0);
+            if (cmp > 0)
+              rc = mdbx_cursor_prev(mc, key, data, MDBX_PREV_NODUP);
+          }
+      }
+    } else {
+      rc = mdbx_cursor_prev(mc, key, data, MDBX_PREV);
+    }
+    if (rc == MDBX_SUCCESS && !csr.exact)
+      rc = MDBX_RESULT_TRUE;
+  }
+   break;
+ }
   default:
     mdbx_debug("unhandled/unimplemented cursor operation %u", op);
     return MDBX_EINVAL;
@@ -28535,9 +28579,9 @@ __dll_export
         0,
         11,
         2,
-        15,
-        {"2021-12-09T15:54:16+03:00", "b9a59a0f8051a9596747d2cdc7b4dd9f07ffea68", "ca19796514122e7980cb42c9cf9aeccb0e544705",
-         "v0.11.2-15-gca197965"},
+        18,
+        {"2021-12-11T20:32:18+08:00", "c42537f2efee4001c5a2414989b9ca7c6f4d0a86", "74b62ceee5677a61fcad0be33ae105b5fd4495a3",
+         "v0.11.2-18-g74b62cee"},
         sourcery};
 
 __dll_export
